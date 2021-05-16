@@ -1,0 +1,9 @@
+[package]
+authors = ["VaranTavers <tasnadi98@gmail.com>"]
+edition = "2018"
+name = "nlp2021_03"
+version = "0.1.0"
+# definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+regex = "*"
