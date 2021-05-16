@@ -28,7 +28,7 @@ fn cull_word_map(dict: HashMap<String, i32>, high: usize, low: usize) -> Vec<Str
     let low_threshold = counts[low];
 
     let words = dict.keys()
-                    .filter(|k| dict[*k] > low_threshold && dict[*k] < high_threshold)
+                    .filter(|k| dict[*k] >= low_threshold && dict[*k] <= high_threshold)
                     .cloned()
                     .collect::<Vec<String>>();
 
@@ -42,7 +42,9 @@ fn main() {
 
     let out = File::create("word_index.csv").unwrap();
     let mut writer = BufWriter::new(out);
-    for (w, i) in words.iter().enumerate() {
-        writer.write_all(format!("{}; {}\n", w, i).as_bytes()).unwrap();
+    for (i, w) in words.iter().enumerate() {
+        if i <= 10000 {
+            writer.write_all(format!("{}; {}\n", w, i).as_bytes()).unwrap();
+        }
     }
 }
