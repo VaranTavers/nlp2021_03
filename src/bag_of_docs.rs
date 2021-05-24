@@ -54,7 +54,7 @@ pub fn create_bag_of_docs(folder_name: &str,
     let mut writer = BufWriter::new(out);
     for a in v {
         for b in a {
-            writer.write_all(format!("{};", b).as_bytes())?;
+            writer.write_all(format!("{},", b).as_bytes())?;
         }
         writer.write_all(b"\n")?;
     }
