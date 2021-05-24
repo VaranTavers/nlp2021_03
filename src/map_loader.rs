@@ -14,7 +14,7 @@ pub fn parse_dict(filename: &str) -> Result<HashMap<String, i32>, std::io::Error
 
     for line_op in file.lines() {
         let line = line_op?;
-        let sp = line.split(';').collect::<Vec<&str>>();
+        let sp = line.split(',').collect::<Vec<&str>>();
         res.insert(sp[0].to_string(), parse_input!(sp[1], i32));
     }
 

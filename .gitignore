@@ -3,3 +3,4 @@ tags
 Cargo.lock
 /korpusz
 *.csv
+*.h5

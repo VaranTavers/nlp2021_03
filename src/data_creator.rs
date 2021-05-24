@@ -1,26 +1,10 @@
-use regex::Regex;
-
 use std::collections::HashMap;
 
 use std::io::Write;
 use std::io::BufWriter;
 use std::fs::File;
 
-struct Settings {
-    sep: Regex,
-    ignore: Regex,
-    window_size: i32,
-}
-
-impl Settings {
-    pub fn new(window_size: i32) -> Result<Settings, regex::Error> {
-        Ok(Settings {
-            sep: Regex::new("[,\\-:\"\'();\t]+")?,
-            ignore: Regex::new("[^a-z .]+")?,
-            window_size
-        })
-    }
-}
+use crate::settings::Settings;
 
 fn parse_file(text: &str, dict: &HashMap<String, i32>, settings: &Settings) -> Vec<(String, String)> {
     let mut res = Vec::new();
@@ -73,10 +57,10 @@ pub fn create_training_data(folder_name: &str,
 
     let v = get_training_data(folder_name, dict, window_size)?;
 
-    let out = File::create("word_index.csv")?;
+    let out = File::create("training_data.csv")?;
     let mut writer = BufWriter::new(out);
     for (a, b) in v {
-        writer.write_all(format!("{};{}\n", a, b).as_bytes())?;
+        writer.write_all(format!("{},{}\n", a, b).as_bytes())?;
     }
 
     Ok(())

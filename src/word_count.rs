@@ -18,7 +18,7 @@ pub struct WordCounter {
 impl WordCounter {
     pub fn new() -> Result<WordCounter, regex::Error> {
         Ok(WordCounter {
-            sep: Regex::new("[.,\\-:\"\'()!?;\t]+")?,
+            sep: Regex::new("[.,\\-:\"\'()!?;\t\n]+")?,
             ignore: Regex::new("[^a-z ]+")?,
         })
     }
@@ -85,8 +85,8 @@ pub fn create_word_index() -> Result<(), std::io::Error> {
     let out = File::create("word_index.csv")?;
     let mut writer = BufWriter::new(out);
     for (i, w) in words.iter().enumerate() {
-        if i <= 10000 {
-            writer.write_all(format!("{}; {}\n", w, i).as_bytes())?;
+        if i < 10000 {
+            writer.write_all(format!("{},{}\n", w, i).as_bytes())?;
         }
     }
     Ok(())
