@@ -1,6 +1,9 @@
+import tensorflow.keras as keras
 import numpy as np
 import csv
 import sys
+
+from tensorflow.keras import layers, models
 
 def get_word_map():
     reader = csv.reader(open('./word_index.csv'))
@@ -12,17 +15,10 @@ def get_word_map():
 
     return word_map
 
-def get_bod_mat():
-    reader = csv.reader(open('./bag_of_docs.csv'))
+def get_embedded_mat():
+    model = keras.models.load_model("./my_model.h5")
 
-    mat_py = []
-
-    for row in reader:
-        if len(row) > 1:
-            l = list(map(lambda x : int(x), row[0:10000]))
-            mat_py.append(l)
-
-    mat_np = np.array(mat_py);
+    mat_np = np.array(model.get_weights()[2])
     
     return mat_np
 
@@ -39,7 +35,7 @@ def get_similarity(word1, word2, word_map, mat_np):
 def main():
 
     word_map = get_word_map()
-    mat_np = get_bod_mat()
+    mat_np = get_embedded_mat()
 
     sum_sq_err = 0
     count_sq_err = 0
